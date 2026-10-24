@@ -1,0 +1,28 @@
+# Dependencies and generated distributions
+node_modules/
+release/
+dist/
+coverage/
+# Local verification, archives, agent state and user data
+verification/
+original/
+.hermes/
+userdata/
+user-data/
+profiles/
+.env
+.env.*
+*.log
+*.zip
+*.dmg
+*.exe
+*.asar
+*.blockmap
+*.bak
+*.backup
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+# Generated renderer; canonical HTML lives in renderer/
+app/index.html

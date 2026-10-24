@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>RinPNGTube</title><link rel="stylesheet" href="studio.css"></head>
+<body>
+<header class="app-header">
+ <div class="brand"><span class="brand-mark" aria-hidden="true">🌸</span><h1>RinPNGTube</h1><span class="studio-label">STUDIO</span></div>
+ <div class="header-actions"><span id="serverStatus">Desktop · nur lokal</span><button id="overlayTab" class="primary">Avatar-Fenster öffnen <span aria-hidden="true">↗</span></button></div>
+</header>
+<main>
+ <aside aria-label="Studio-Einstellungen">
+  <div class="tool-tabs" role="tablist" aria-label="Studio-Bereiche">
+   <button id="tab-images" role="tab" aria-selected="true" aria-controls="panel-images" data-panel="images">Bilder</button>
+   <button id="tab-audio" role="tab" aria-selected="false" aria-controls="panel-audio" tabindex="-1" data-panel="audio">Mikrofon</button>
+   <button id="tab-motion" role="tab" aria-selected="false" aria-controls="panel-motion" tabindex="-1" data-panel="motion">Bewegung</button>
+   <button id="tab-output" role="tab" aria-selected="false" aria-controls="panel-output" tabindex="-1" data-panel="output">Ausgabe</button>
+  </div>
+  <div class="inspector-scroll">
+   <section id="panel-images" role="tabpanel" aria-labelledby="tab-images">
+    <div class="section-heading"><div><p class="eyebrow">AVATAR</p><h2>Deine Bildzustände</h2></div><span class="count">5 PNGs</span></div>
+    <p class="hint">Wähle einen Zustand, um sein Bild zu ersetzen.</p>
+    <div class="asset-list" aria-label="Bildzustände">
+     <button data-slot="neutral" aria-pressed="true"><img alt="" src="assets/01_Neutral_Augen_offen_Mund_zu.png"><span><strong>Neutral</strong><small>Augen offen · Mund zu</small></span><span class="asset-origin">Original</span></button>
+     <button data-slot="talk" aria-pressed="false"><img alt="" src="assets/02_Sprechen_Augen_offen_Mund_auf.png"><span><strong>Sprechen</strong><small>Augen offen · Mund auf</small></span><span class="asset-origin">Original</span></button>
+     <button data-slot="sleep" aria-pressed="false"><img alt="" src="assets/04_Augen_geschlossen_Mund_zu.png"><span><strong>Blinzeln</strong><small>Augen zu · Mund zu</small></span><span class="asset-origin">Original</span></button>
+     <button data-slot="sleepTalk" aria-pressed="false"><img alt="" src="assets/05_Augen_geschlossen_Mund_auf.png"><span><strong>Blinzeln + Sprechen</strong><small>Augen zu · Mund auf</small></span><span class="asset-origin">Original</span></button>
+     <button data-slot="cry" aria-pressed="false"><img alt="" src="assets/03_Weinen.png"><span><strong>Weinen</strong><small>Emotion · hat Vorrang</small></span><span class="asset-origin">Original</span></button>
+    </div>
+    <label class="sr-only" for="assetSlot">Bildzustand</label><select id="assetSlot" class="sr-only" tabindex="-1" aria-hidden="true"><option value="neutral">Neutral</option><option value="talk">Sprechen</option><option value="sleep">Blinzeln</option><option value="sleepTalk">Blinzeln + Sprechen</option><option value="cry">Weinen</option></select>
+    <div class="asset-editor"><img id="assetPreview" alt="Vorschau des gewählten Bildzustands" class="checker"><div><strong id="selectedAssetName">Neutral</strong><p id="assetStatus" role="status" aria-live="polite">Originalbild</p><button id="importPng">PNG auswählen …</button></div></div>
+    <button id="restorePng" class="quiet full">Original verwenden</button>
+    <details class="help"><summary>Bildformat &amp; Speicherung</summary><p>PNG bis 12 MiB, maximal 4096 × 4096 Pixel. Verwende gleich große Bilder mit transparentem Hintergrund, damit der Avatar nicht springt.</p><p>Importe werden lokal kopiert und bleiben nach dem Neustart erhalten. Nicht belegte Zustände nutzen das Original.</p></details>
+   </section>
+   <section id="panel-audio" role="tabpanel" aria-labelledby="tab-audio" hidden>
+    <p class="eyebrow">AUDIO</p><h2>Stimme zu Bewegung</h2><p class="hint">Dein Mikrofon öffnet den Mund beim Sprechen. Audio wird nur lokal analysiert, nicht aufgenommen.</p>
+    <div class="control-group"><label for="micro">Eingabegerät</label><select id="micro"><option value="">Standardmikrofon</option></select></div>
+    <div class="control-group"><label for="threshold">Empfindlichkeit <output id="thresholdText">4</output></label><input id="threshold" type="range" min="1" max="25" value="4"><p class="hint">Kleinerer Wert: reagiert auf leisere Stimmen.</p></div>
+    <div class="control-group"><label for="hold">Mund bleibt offen <span><output id="holdText">170</output> ms</span></label><input id="hold" type="range" min="60" max="500" value="170" step="10"><p class="hint">Überbrückt kurze Pausen zwischen Silben.</p></div>
+    <div class="section-divider"><h3>Kein Ausschlag?</h3><p class="hint">Prüfe das Eingabegerät und die Mikrofonfreigabe in den Systemeinstellungen. Start und Pegel findest du immer unter der Vorschau.</p></div>
+   </section>
+   <section id="panel-motion" role="tabpanel" aria-labelledby="tab-motion" hidden>
+    <p class="eyebrow">BEWEGUNG</p><h2>Ausdruck &amp; Position</h2>
+    <div class="control-group"><h3>Gesichtsausdrücke</h3><div class="two"><button id="cry" aria-pressed="false">Weinen: Aus</button><button id="blink" aria-pressed="true">Blinzeln: An</button></div></div>
+    <label class="check"><input type="checkbox" id="manual"> Mund manuell testen</label><div class="two"><button id="open">Mund auf</button><button id="close">Mund zu</button></div><p class="hint">Der manuelle Test ersetzt die Mikrofonsteuerung.</p>
+    <div class="section-divider"><h3>Avatar im Bild</h3><label for="scale">Größe <output id="scaleText">80%</output></label><input id="scale" type="range" min="20" max="150" value="80"><label for="x">Horizontal <output id="xText">50%</output></label><input id="x" type="range" min="0" max="100" value="50"><label for="y">Vertikaler Versatz <output id="yText">0</output></label><input id="y" type="range" min="0" max="100" value="0"><label class="check"><input type="checkbox" id="mirror"> Spiegeln</label></div>
+    <p class="hint shortcuts"><kbd>1</kbd> Normal <kbd>2</kbd> Weinen<br><kbd>Leertaste</kbd> Mund wechseln im manuellen Test</p>
+   </section>
+   <section id="panel-output" role="tabpanel" aria-labelledby="tab-output" hidden>
+    <p class="eyebrow">AUSGABE</p><h2>Bereit für OBS</h2><p class="hint">Öffne oben das separate Avatar-Fenster und füge es in OBS als Fensteraufnahme hinzu.</p>
+    <div class="control-group"><h3>Hintergrund</h3><button id="chroma" class="full" aria-pressed="false">OBS-Grün: Aus</button><p class="hint">Standard: transparent. Falls die Aufnahme keine Transparenz übernimmt, aktiviere Grün und verwende in OBS einen Chroma-Key-Filter.</p></div>
+    <div class="section-divider"><h3>Alternativ: Browser-Quelle</h3><p class="hint">800 × 800 Pixel · transparenter Hintergrund</p><code id="obsUrl">Wird beim Start angezeigt</code><button id="copy" class="full">OBS-Link kopieren</button><p class="hint">RinPNGTube muss geöffnet bleiben. Der lokale Link kann sich nach einem Neustart ändern.</p></div>
+    <div class="section-divider"><button id="reset" class="quiet full">Standardwerte</button><p class="hint">Setzt Bewegung und Audio-Regler zurück. Deine importierten Bilder bleiben erhalten.</p></div>
+   </section>
+  </div>
+  <div class="inspector-footer">RinPNGTube <span>Dein Avatar. Lokal.</span></div>
+ </aside>
+ <div class="workspace">
+  <div class="workspace-toolbar"><div><h2>Vorschau</h2><span id="poseLabel">Neutral</span></div><button id="preview" class="quiet" aria-pressed="true">Schachbrett</button></div>
+  <div class="preview-area"><div class="stage checker" id="stage"><img id="avatar" class="avatar" alt="PNGTuber-Avatar" draggable="false"></div></div>
+  <div class="canvas-caption"><span>800 × 800 · Ausgabeformat</span><span>Hintergrund nur zur Vorschau</span></div>
+  <div class="audio-dock" aria-label="Mikrofonsteuerung"><button class="primary" id="micButton">Mikrofon starten</button><div class="audio-readout"><div class="audio-label"><span>Mikrofonpegel</span><span id="micStat" role="status" aria-live="polite">Mikrofon noch nicht aktiv</span></div><div class="meter"><div id="meter" role="meter" aria-label="Mikrofonpegel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div></div></div>
+ </div>
+</main>
+<script type="module" src="studio.mjs"></script>
+</body></html>

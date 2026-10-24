@@ -1,0 +1,32 @@
+{
+ "name":"rinpngtube",
+ "version":"1.2.0",
+ "private":true,
+ "description":"RinPNGTube – lokales PNGTuber-Studio mit eigenen Avataren für macOS und Windows",
+ "author":"RinPNGTube",
+ "main":"desktop/main.cjs",
+ "scripts":{
+  "build":"node scripts/build.mjs",
+  "test":"node --test tests/*.test.*",
+  "start":"npm run build && electron .",
+  "dist:mac":"npm run build && electron-builder --mac --arm64 --publish never",
+  "dist:win":"npm run build && electron-builder --win --x64 --publish never",
+  "test:native":"node tests/native.mjs",
+  "test:ui":"node tests/studio-ui.mjs",
+  "test:permissions":"node tests/permissions.mjs"
+ },
+ "devDependencies":{"electron":"44.9.0","electron-builder":"26.15.3","@playwright/test":"1.64.1"},
+ "build":{
+  "appId":"studio.rinraku.desktop",
+  "productName":"RinPNGTube",
+  "electronVersion":"44.9.0",
+  "directories":{"output":"release"},
+  "artifactName":"RinPNGTube-${version}-${os}-${arch}.${ext}",
+  "files":["app/**/*","desktop/**/*","package.json"],
+  "asar":true,
+  "npmRebuild":false,
+  "mac":{"target":["dmg","zip"],"identity":null,"category":"public.app-category.video","extendInfo":{"NSMicrophoneUsageDescription":"RinPNGTube analysiert dein Mikrofon lokal, um den Avatar beim Sprechen zu animieren. Es wird kein Audio aufgenommen oder übertragen."}},
+  "win":{"target":["nsis","zip"],"signExecutable":false},
+  "nsis":{"oneClick":false,"allowToChangeInstallationDirectory":true,"perMachine":false}
+ }
+}
